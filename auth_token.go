@@ -1,6 +1,7 @@
 package vcapool
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/Viva-con-Agua/vcago"
@@ -41,6 +42,7 @@ type AuthToken struct {
 func NewAuthToken(user *User) (r *AuthToken, err error) {
 	r = new(AuthToken)
 	if r.AccessToken, err = NewAccessToken(user).SignedString(jwtSecret); err != nil {
+		log.Print(err)
 		return
 	}
 	r.RefreshToken, err = NewRefreshToken(user.ID).SignedString(jwtSecret)

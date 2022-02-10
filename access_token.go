@@ -24,7 +24,7 @@ func NewAccessToken(user *User) *AccessToken {
 }
 
 func (i *AccessToken) SignedString(secret string) (string, error) {
-	temp := jwt.NewWithClaims(jwt.SigningMethodES256, i)
+	temp := jwt.NewWithClaims(jwt.SigningMethodHS256, i)
 	return temp.SignedString([]byte(secret))
 }
 

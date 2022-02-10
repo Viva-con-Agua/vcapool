@@ -25,7 +25,7 @@ func NewRefreshToken(userID string) *RefreshToken {
 }
 
 func (i *RefreshToken) SignedString(secret string) (string, error) {
-	temp := jwt.NewWithClaims(jwt.SigningMethodES256, i)
+	temp := jwt.NewWithClaims(jwt.SigningMethodHS256, i)
 	return temp.SignedString([]byte(secret))
 }
 
