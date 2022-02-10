@@ -1,4 +1,4 @@
-package vpool
+package vcapool
 
 import "github.com/Viva-con-Agua/vcago"
 

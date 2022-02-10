@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/Viva-con-Agua/vcago v1.1.3
-	github.com/golang-jwt/jwt/v4 v4.2.0
+	github.com/golang-jwt/jwt/v4 v4.3.0
 	github.com/labstack/echo/v4 v4.6.3
 )
 
