@@ -9,9 +9,6 @@ import (
 
 var jwtSecret = vcago.Config.GetEnvString("JWT_SECRET", "w", "secret")
 
-//AuthCookie represents the default authentication cookie
-var AuthCookie = AuthCookieDefault()
-
 //AuthCookieDefault returns an http.Cookie with the default set parameters.
 func AuthCookieDefault() (r *http.Cookie) {
 	r = new(http.Cookie)
@@ -29,7 +26,7 @@ func AuthCookieDefault() (r *http.Cookie) {
 	r.Secure = vcago.Config.GetEnvBool("COOKIE_SECURE", "w", true)
 	r.HttpOnly = vcago.Config.GetEnvBool("COOKIE_HTTP_ONLY", "w", true)
 	r.Path = "/"
-	r.Domain = vcago.Config.GetEnvString("COOKIE_DOMAIN", "w", "localhost")
+	//r.Domain = vcago.Config.GetEnvString("COOKIE_DOMAIN", "w", "localhost")
 	return
 }
 
@@ -50,14 +47,14 @@ func NewAuthToken(user *User) (r *AuthToken, err error) {
 }
 
 func (i *AuthToken) AccessCookie() (r *http.Cookie) {
-	r = AuthCookie
+	r = AuthCookieDefault()
 	r.Name = "access_token"
 	r.Value = i.AccessToken
 	return
 }
 
 func (i *AuthToken) RefreshCookie() (r *http.Cookie) {
-	r = AuthCookie
+	r = AuthCookieDefault()
 	r.Name = "refresh_token"
 	r.Value = i.RefreshToken
 	return

@@ -4,13 +4,13 @@ import (
 	"errors"
 	"time"
 
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
 type AccessToken struct {
-	User interface{} `json:"user"`
+	User User `json:"user"`
 	jwt.StandardClaims
 }
 
@@ -40,10 +40,11 @@ func AccessCookieConfig() echo.MiddlewareFunc {
 		})
 }
 
-func AccessCookieUser(c echo.Context) (*interface{}, error) {
+func AccessCookieUser(c echo.Context) (*User, error) {
 	token := c.Get("token").(*jwt.Token)
 	if token == nil {
 		return nil, errors.New("No user in Conext")
 	}
-	return &token.Claims.(*AccessToken).User, nil
+	user := &token.Claims.(*AccessToken).User
+	return user, nil
 }
