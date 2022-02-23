@@ -11,6 +11,7 @@ type (
 		DisplayName string         `bson:"display_name" json:"display_name"`
 		Gender      string         `bson:"gender" json:"gender"`
 		Avatar      Avatar         `bson:"avatar" json:"avatar"`
+		Phone       string         `bson:"phone" json:"phone"`
 		UserID      string         `bson:"user_id" json:"user_id"`
 		Modified    vcago.Modified `bson:"modified" json:"modified"`
 	}
@@ -24,5 +25,4 @@ func (i *Profile) NewFromVcaGo(profile *vcago.Profile) {
 	i.FirstName = profile.FirstName
 	i.LastName = profile.LastName
 	i.FullName = profile.FullName
-	i.Gender = profile.Gender
 }
