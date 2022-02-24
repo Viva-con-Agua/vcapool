@@ -12,7 +12,7 @@ type User struct {
 	Profile Profile `json:"profile" bson:"profile"`
 	//Crew     UserCrew       `json:"crew" bson:"crew"`
 	Address  Address        `json:"address" bson:"address"`
-	Roles    string         `json:"roles" bson:"roles"`
+	Roles    vcago.RoleList `json:"roles" bson:"roles"`
 	Country  string         `bson:"country" json:"country"`
 	Modified vcago.Modified `json:"modified" bson:"modified"`
 }
