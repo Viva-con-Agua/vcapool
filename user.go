@@ -7,12 +7,14 @@ import (
 )
 
 type User struct {
-	ID      string  `json:"id,omitempty" bson:"_id"`
-	Email   string  `json:"email" bson:"email" validate:"required,email"`
-	Profile Profile `json:"profile" bson:"profile"`
-	//Crew     UserCrew       `json:"crew" bson:"crew"`
+	ID       string         `json:"id,omitempty" bson:"_id"`
+	Email    string         `json:"email" bson:"email" validate:"required,email"`
+	Profile  Profile        `json:"profile" bson:"profile"`
+	Crew     UserCrew       `json:"crew" bson:"crew"`
 	Address  Address        `json:"address" bson:"address"`
 	Roles    vcago.RoleList `json:"roles" bson:"roles"`
+	Active   UserActive     `json:"active" bson:"active"`
+	NWM      UserNWM        `json:"nwm" bson:"nwm"`
 	Country  string         `bson:"country" json:"country"`
 	Modified vcago.Modified `json:"modified" bson:"modified"`
 }
