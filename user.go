@@ -7,16 +7,26 @@ import (
 )
 
 type User struct {
-	ID       string         `json:"id,omitempty" bson:"_id"`
-	Email    string         `json:"email" bson:"email" validate:"required,email"`
-	Profile  Profile        `json:"profile" bson:"profile"`
-	Crew     UserCrew       `json:"crew" bson:"crew"`
-	Address  Address        `json:"address" bson:"address"`
-	Roles    vcago.RoleList `json:"roles" bson:"roles"`
-	Active   UserActive     `json:"active" bson:"active"`
-	NWM      UserNWM        `json:"nwm" bson:"nwm"`
-	Country  string         `bson:"country" json:"country"`
-	Modified vcago.Modified `json:"modified" bson:"modified"`
+	ID            string         `json:"id,omitempty" bson:"_id"`
+	Email         string         `json:"email" bson:"email" validate:"required,email"`
+	FirstName     string         `bson:"first_name" json:"first_name" validate:"required"`
+	LastName      string         `bson:"last_name" json:"last_name" validate:"required"`
+	FullName      string         `bson:"full_name" json:"full_name"`
+	DisplayName   string         `bson:"display_name" json:"display_name"`
+	Roles         vcago.RoleList `json:"system_roles" bson:"system_roles"`
+	Country       string         `bson:"country" json:"country"`
+	PrivacyPolicy bool           `bson:"privacy_policy" json:"privacy_policy"`
+	Confirmd      bool           `bson:"confirmed" json:"confirmed"`
+	LastUpdate    string         `bson:"last_update" json:"last_update"`
+	//extends the vcago.User
+	Profile   Profile        `json:"profile" bson:"profile,truncate"`
+	Crew      UserCrew       `json:"crew" bson:"crew,omitempty"`
+	Avatar    Avatar         `bson:"avatar,omitempty" json:"avatar"`
+	Address   Address        `json:"address" bson:"address,omitempty"`
+	PoolRoles vcago.RoleList `json:"pool_roles" bson:"pool_roles,omitempty"`
+	Active    UserActive     `json:"active" bson:"active,omitempty"`
+	NWM       UserNWM        `json:"nwm" bson:"nwm,omitempty"`
+	Modified  vcago.Modified `json:"modified" bson:"modified"`
 }
 
 func (i *User) ToAuthToken() (r *AuthToken, err error) {
