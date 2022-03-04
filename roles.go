@@ -11,7 +11,7 @@ func NewRole(role string, userID string) (r *vcago.Role, err error) {
 		return RoleASP(userID), err
 	case "finance":
 		return RoleFinance(userID), err
-	case "action":
+	case "operation":
 		return RoleAction(userID), err
 	case "education":
 		return RoleEducation(userID), err
