@@ -3,7 +3,7 @@ module github.com/Viva-con-Agua/vcapool
 go 1.17
 
 require (
-	github.com/Viva-con-Agua/vcago v1.1.12
+	github.com/Viva-con-Agua/vcago v1.1.13
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/google/uuid v1.3.0
 	github.com/labstack/echo/v4 v4.6.3
