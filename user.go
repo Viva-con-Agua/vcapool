@@ -25,7 +25,7 @@ type User struct {
 	Address   Address        `json:"address" bson:"address,omitempty"`
 	PoolRoles vcago.RoleList `json:"pool_roles" bson:"pool_roles,omitempty"`
 	Active    UserActive     `json:"active" bson:"active,omitempty"`
-	NWM       UserNWM        `json:"nwm" bson:"nwm,omitempty"`
+	NWM       UserNVM        `json:"nwm" bson:"nwm,omitempty"`
 	Modified  vcago.Modified `json:"modified" bson:"modified"`
 }
 
