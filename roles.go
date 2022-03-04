@@ -58,9 +58,9 @@ func RoleFinance(userID string) *vcago.Role {
 func RoleAction(userID string) *vcago.Role {
 	return &vcago.Role{
 		ID:     uuid.NewString(),
-		Name:   "action",
+		Name:   "operation",
 		Label:  "Aktion",
-		Root:   "action;employee;admin",
+		Root:   "operation;employee;admin",
 		UserID: userID,
 	}
 }
