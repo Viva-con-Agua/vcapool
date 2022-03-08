@@ -12,7 +12,9 @@ type (
 		Modified  vcago.Modified `bson:"modified" json:"modified"`
 	}
 	Avatar struct {
-		URL  string `bson:"url" json:"url"`
-		Type string `bson:"type" json:"type"`
+		ID       string         `bson:"_id" json:"id"`
+		URL      string         `bson:"url" json:"url"`
+		Type     string         `bson:"type" json:"type"`
+		Modified vcago.Modified `bson:"modified" json:"modified"`
 	}
 )
