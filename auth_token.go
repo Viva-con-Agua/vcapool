@@ -53,9 +53,23 @@ func (i *AuthToken) AccessCookie() (r *http.Cookie) {
 	return
 }
 
+func ResetAccessCookie() (r *http.Cookie) {
+	r = AuthCookieDefault()
+	r.Name = "access_token"
+	r.Value = ""
+	return
+}
+
 func (i *AuthToken) RefreshCookie() (r *http.Cookie) {
 	r = AuthCookieDefault()
 	r.Name = "refresh_token"
 	r.Value = i.RefreshToken
+	return
+}
+
+func ResetRefreshCookie() (r *http.Cookie) {
+	r = AuthCookieDefault()
+	r.Name = "refresh_token"
+	r.Value = ""
 	return
 }
