@@ -21,11 +21,7 @@ func NewAdminRequest() *AdminRequest {
 	}
 }
 
-type GetUserQuery struct {
-	ActiveState []string `qs:"active_state"`
-}
-
-func (i *AdminRequest) GetUser(query *GetUserQuery) (r *UserList, err error) {
+func (i *AdminRequest) GetUser(query *UserQuery) (r *UserList, err error) {
 	encoder := qs.NewEncoder()
 	var values url.Values
 	if values, err = encoder.Values(query); err != nil {

@@ -31,6 +31,25 @@ type User struct {
 
 type UserList []User
 
+type UserQuery struct {
+	FirstName     string   `query:"first_name" qs:"first_name"`
+	LastName      string   `query:"last_name" qs:"last_name"`
+	FullName      string   `query:"full_name" qs:"full_name"`
+	DisplayName   string   `query:"display_name" qs:"display_name"`
+	ActiveState   []string `query:"active_state" qs:"active_state"`
+	SystemRoles   []string `query:"system_roles" qs:"system_roles"`
+	PoolRoles     []string `query:"pool_roles" qs:"pool_roles"`
+	PrivacyPolicy string   `query:"privacy_policy" qs:"privacy_policy"`
+	NVMState      []string `query:"nvm_state" qs:"nvm_state"`
+	CrewID        string   `query:"crew_id" qs:"crew_id"`
+	Country       string   `query:"country" qs:"country"`
+	Confirmed     string   `query:"confirmed" qs:"confirmed"`
+	UpdatedTo     string   `query:"updated_to" qs:"updated_to"`
+	UpdatedFrom   string   `query:"updated_from" qs:"updated_from"`
+	CreatedTo     string   `query:"created_to" qs:"created_to"`
+	CreatedFrom   string   `query:"created_from" qs:"created_from"`
+}
+
 func (i *UserList) GetEmailList() []string {
 	list := []string{}
 	for n, _ := range *i {
