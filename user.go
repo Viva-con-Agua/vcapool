@@ -29,6 +29,16 @@ type User struct {
 	Modified  vcago.Modified `json:"modified" bson:"modified"`
 }
 
+type UserList []User
+
+func (i *UserList) GetEmailList() []string {
+	list := []string{}
+	for n, _ := range *i {
+		list = append(list, (*i)[n].Email)
+	}
+	return list
+}
+
 func (i *User) ToAuthToken() (r *AuthToken, err error) {
 	r = new(AuthToken)
 	return NewAuthToken(i)
