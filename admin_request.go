@@ -28,7 +28,6 @@ func (i *AdminRequest) GetUser(query *UserQuery) (r *UserList, err error) {
 		return
 	}
 	url := i.URL + "/admin/users?" + values.Encode()
-	log.Print(url)
 	request := new(http.Request)
 	request, err = http.NewRequest("GET", url, nil)
 	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
