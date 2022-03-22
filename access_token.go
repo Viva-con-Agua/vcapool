@@ -25,6 +25,7 @@ type AccessToken struct {
 	Profile       Profile              `json:"profile" bson:"profile,truncate"`
 	CrewName      string               `json:"crew_name"`
 	CrewID        string               `json:"crew_id"`
+	CrewEmail     string               `json:"crew_email"`
 	AddressID     string               `json:"address_id"`
 	PoolRoles     vcago.RoleListCookie `json:"pool_roles"`
 	ActiveState   string               `json:"active_state"`
@@ -49,6 +50,7 @@ func NewAccessToken(user *User) *AccessToken {
 		user.Profile,
 		user.Crew.Name,
 		user.Crew.CrewID,
+		user.Crew.Email,
 		user.Address.ID,
 		*user.PoolRoles.Cookie(),
 		user.Active.Status,

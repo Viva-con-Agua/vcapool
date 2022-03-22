@@ -2,6 +2,7 @@ package vcapool
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -21,13 +22,8 @@ func NewAdminRequest() *AdminRequest {
 	}
 }
 
-func (i *AdminRequest) GetUser(query *UserQuery) (r *UserList, err error) {
-	encoder := qs.NewEncoder()
-	var values url.Values
-	if values, err = encoder.Values(query); err != nil {
-		return
-	}
-	url := i.URL + "/admin/users?" + values.Encode()
+func (i *AdminRequest) Get(path string) (r *vcago.Response, err error) {
+	url := i.URL + path
 	request := new(http.Request)
 	request, err = http.NewRequest("GET", url, nil)
 	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
@@ -47,19 +43,59 @@ func (i *AdminRequest) GetUser(query *UserQuery) (r *UserList, err error) {
 		if err = json.Unmarshal(bodyBytes, body); err != nil {
 			return nil, vcago.NewStatusInternal(err)
 		}
-		return nil, vcago.NewStatusInternal(err)
+		return nil, vcago.NewStatusInternal(errors.New(response.Status))
 	}
-	body := new(vcago.Response)
+	r = new(vcago.Response)
 	if bodyBytes, err = ioutil.ReadAll(response.Body); err != nil {
 		return nil, vcago.NewStatusInternal(err)
 	}
-	if err = json.Unmarshal(bodyBytes, body); err != nil {
+	if err = json.Unmarshal(bodyBytes, r); err != nil {
 		log.Print(err)
 		return nil, vcago.NewStatusInternal(err)
 	}
-	if body.Payload != nil {
-		bytes, _ := json.Marshal(&body.Payload)
+	return
+
+}
+
+func (i *AdminRequest) GetUser(query *UserQuery) (r *UserList, err error) {
+	uRL := "/admin/users"
+	if query != nil {
+		encoder := qs.NewEncoder()
+		var values url.Values
+		if values, err = encoder.Values(query); err != nil {
+			return
+		}
+		uRL = uRL + "?" + values.Encode()
+	}
+	response := new(vcago.Response)
+	if response, err = i.Get(uRL); err != nil {
+		return
+	}
+	if response.Payload != nil {
+		bytes, _ := json.Marshal(&response.Payload)
 		r = new(UserList)
+		_ = json.Unmarshal(bytes, &r)
+	}
+	return
+}
+
+func (i *AdminRequest) GetCrew(query *CrewQuery) (r *CrewList, err error) {
+	uRL := "/admin/crews"
+	if query != nil {
+		encoder := qs.NewEncoder()
+		var values url.Values
+		if values, err = encoder.Values(query); err != nil {
+			return
+		}
+		uRL = uRL + "?" + values.Encode()
+	}
+	response := new(vcago.Response)
+	if response, err = i.Get(uRL); err != nil {
+		return
+	}
+	if response.Payload != nil {
+		bytes, _ := json.Marshal(&response.Payload)
+		r = new(CrewList)
 		_ = json.Unmarshal(bytes, &r)
 	}
 	return
