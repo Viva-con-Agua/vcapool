@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"net/url"
 
@@ -31,27 +30,26 @@ func (i *AdminRequest) Get(path string) (r *vcago.Response, err error) {
 	response := new(http.Response)
 	response, err = client.Do(request)
 	if err != nil {
-		return nil, vcago.NewStatusInternal(err)
+		return
 	}
 	defer response.Body.Close()
 	var bodyBytes []byte
 	if response.StatusCode != 200 {
 		if bodyBytes, err = ioutil.ReadAll(response.Body); err != nil {
-			return nil, vcago.NewStatusInternal(err)
+			return
 		}
 		body := new(interface{})
 		if err = json.Unmarshal(bodyBytes, body); err != nil {
-			return nil, vcago.NewStatusInternal(err)
+			return
 		}
-		return nil, vcago.NewStatusInternal(errors.New(response.Status))
+		return nil, errors.New(response.Status)
 	}
 	r = new(vcago.Response)
 	if bodyBytes, err = ioutil.ReadAll(response.Body); err != nil {
-		return nil, vcago.NewStatusInternal(err)
+		return
 	}
 	if err = json.Unmarshal(bodyBytes, r); err != nil {
-		log.Print(err)
-		return nil, vcago.NewStatusInternal(err)
+		return
 	}
 	return
 

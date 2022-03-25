@@ -75,7 +75,7 @@ func (i *User) ToAuthToken() (r *AuthToken, err error) {
 func UserFromInterface(i interface{}) (r *User, err error) {
 	var ok bool
 	if r, ok = i.(*User); !ok {
-		return nil, vcago.NewStatusInternal(errors.New("no user models"))
+		return nil, errors.New("no user models")
 	}
 	return
 }
