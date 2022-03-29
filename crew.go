@@ -17,10 +17,6 @@ type (
 		PlaceID     string   `json:"place_id" bson:"place_id"`
 		Position    Position `json:"position" bson:"position"`
 	}
-	Position struct {
-		Lat float64 `json:"lat" bson:"lat"`
-		Lng float64 `json:"lin" bson:"lin"`
-	}
 	CrewList  []Crew
 	CrewQuery struct {
 		ID     string   `query:"id,omitempty" qs:"id"`
