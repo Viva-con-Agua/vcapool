@@ -24,4 +24,9 @@ type (
 		Email  string   `query:"email" qs:"email"`
 		Cities []string `query:"cities" qs:"cities"`
 	}
+	CrewSimple struct {
+		ID    string `json:"id" bson:"id"`
+		Name  string `json:"name" bson:"name"`
+		Email string `json:"email" bson:"email"`
+	}
 )

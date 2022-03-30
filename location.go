@@ -1,6 +1,7 @@
 package vcapool
 
 type Location struct {
+	Name        string   `json:"name" bson:"name"`
 	Street      string   `json:"street" bson:"street"`
 	City        string   `json:"city" bson:"city"`
 	Country     string   `json:"country" bson:"country"`

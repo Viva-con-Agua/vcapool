@@ -3,20 +3,26 @@ package vcapool
 import "github.com/Viva-con-Agua/vcago"
 
 type Event struct {
-	ID           string                `json:"id" bson:"_id"`
-	Name         string                `json:"name" bson:"name"`
-	TypeOfEvent  string                `json:"type_of_event" bson:"type_of_event"`
-	TourneeID    string                `json:"tournee_id" bson:"tournee_id"`
-	Location     Location              `json:"location" bson:"location"`
-	Artists      ArtistList            `json:"artists" bson:"artists"`
-	Organizer    Organizer             `json:"organizer" bson:"organizer"`
-	StartAt      int64                 `json:"start_at" bson:"start_at"`
-	EndAt        int64                 `json:"end_at" bson:"end_at"`
-	Application  EventApplication      `json:"application" bson:"application"`
-	Organisation EventOrganisationList `json:"organistion"`
-	Tools        []string              `json:"tools" bson:"tools"`
-	CreatorID    string                `json:"creator_id" bson:"creator_id"`
-	Modified     string                `json:"modified" bson:"modified"`
+	ID                    string           `json:"id" bson:"_id"`
+	Name                  string           `json:"name" bson:"name"`
+	TypeOfEvent           string           `json:"type_of_event" bson:"type_of_event"`
+	AdditionalInformation string           `json:"additional_information" bson:"additional_information"`
+	Website               string           `json:"website" bson:"website"`
+	TourneeID             string           `json:"tournee_id" bson:"tournee_id"`
+	Location              Location         `json:"location" bson:"location"`
+	Artists               ArtistList       `json:"artists" bson:"artists"`
+	Organizer             Organizer        `json:"organizer" bson:"organizer"`
+	StartAt               int64            `json:"start_at" bson:"start_at"`
+	EndAt                 int64            `json:"end_at" bson:"end_at"`
+	Crew                  CrewSimple       `json:"crew" bson:"crew"`
+	EventASP              EventASP         `json:"event_asp" bson:"event_asp"`
+	InteralASP            EventASP         `json:"interal_asp" bson:"internal_asp"`
+	ExternalASP           EventASPExternal `json:"external_asp" bson:"external_asp"`
+	Application           EventApplication `json:"application" bson:"application"`
+	EventTools            EventTools       `json:"event_tools" bson:"event_tools"`
+	CreatorID             string           `json:"creator_id" bson:"creator_id"`
+	EventState            EventState       `json:"event_state" bson:"event_state"`
+	Modified              string           `json:"modified" bson:"modified"`
 }
 
 type EventList []Event
@@ -29,30 +35,6 @@ type EventQuery struct {
 	CreatedTo   string `query:"created_to" qs:"created_to"`
 	CreatedFrom string `query:"created_from" qs:"created_from"`
 }
-
-type EventLocation struct {
-	ID       string   `json:"id" bson:"_id"`
-	Name     string   `json:"name" bson:"name"`
-	Location Location `json:"location" bson:"location"`
-}
-
-type EventDate struct {
-	StartAt int64 `json:"start_at" bson:"start_at"`
-	EndAt   int64 `json:"end_at" bson:"end_at"`
-}
-
-type EventOrganisation struct {
-	ID         string          `json:"id" bson:"_id"`
-	CrewID     string          `json:"crew_id" bson:"crew_id"`
-	CrewName   string          `json:"crew_name" bson:"crew_name"`
-	Meetings   MeetingList     `json:"meetings" bson:"meetings"`
-	EventASP   EventASP        `json:"event_asp" bson:"event_asp"`
-	Contingent EventContingent `json:"contingent" bson:"contingent"`
-	EventID    string          `json:"event_id" bson:"event_id"`
-	Modified   vcago.Modified  `json:"modified" bson:"modified"`
-}
-
-type EventOrganisationList []EventOrganisation
 
 type EventApplication struct {
 	StartDate      int64 `json:"start_date" bson:"start_date"`
@@ -68,16 +50,29 @@ type EventASP struct {
 	Phone       string `json:"phone" bson:"phone"`
 }
 
-type EventContingent struct {
-	CrewID string `json:"crew_id" bson:"crew_id"`
-	Count  int    `json:"count" bson:"count"`
+type EventTools struct {
+	Tools   []string `json:"tools" bson:"tools"`
+	Special string   `json:"special" bson:"special"`
 }
 
-type EventContingentList []EventContingent
+type EventASPExternal struct {
+	FullName    string `json:"full_name" bson:"full_name"`
+	DisplayName string `json:"display_name" bson:"display_name"`
+	Email       string `json:"email" bson:"email"`
+	Phone       string `json:"phone" bson:"phone"`
+}
+
+type EventState struct {
+	State                string `json:"state" bson:"state"`
+	CrewConfirmation     string `json:"crew_confirmation" bson:"crew_confirmation"`
+	InternalConfirmation string `json:"internal_confirmation" bson:"internal_confirmation"`
+	TakingID             string `json:"taking_id" bson:"taking_id"`
+	DepositID            string `json:"deposit_id" bson:"deposit_id"`
+}
 
 func (i *EventQuery) Match() *vcago.MongoMatch {
 	match := vcago.NewMongoMatch()
-	match.EqualString("id", i.ID)
+	match.EqualString("_id", i.ID)
 	match.LikeString("name", i.Name)
 	match.GteInt64("modified.updated", i.UpdatedFrom)
 	match.GteInt64("modified.created", i.CreatedFrom)
