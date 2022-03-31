@@ -16,7 +16,7 @@ type Event struct {
 	EndAt                 int64            `json:"end_at" bson:"end_at"`
 	Crew                  CrewSimple       `json:"crew" bson:"crew"`
 	EventASP              EventASP         `json:"event_asp" bson:"event_asp"`
-	InteralASP            EventASP         `json:"interal_asp" bson:"internal_asp"`
+	InteralASP            EventASP         `json:"internal_asp" bson:"internal_asp"`
 	ExternalASP           EventASPExternal `json:"external_asp" bson:"external_asp"`
 	Application           EventApplication `json:"application" bson:"application"`
 	EventTools            EventTools       `json:"event_tools" bson:"event_tools"`
