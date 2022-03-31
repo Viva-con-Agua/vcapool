@@ -17,15 +17,16 @@ type (
 		PlaceID     string   `json:"place_id" bson:"place_id"`
 		Position    Position `json:"position" bson:"position"`
 	}
-	Position struct {
-		Lat float64 `json:"lat" bson:"lat"`
-		Lng float64 `json:"lin" bson:"lin"`
-	}
 	CrewList  []Crew
 	CrewQuery struct {
 		ID     string   `query:"id,omitempty" qs:"id"`
 		Name   string   `query:"name" qs:"name"`
 		Email  string   `query:"email" qs:"email"`
 		Cities []string `query:"cities" qs:"cities"`
+	}
+	CrewSimple struct {
+		ID    string `json:"id" bson:"id"`
+		Name  string `json:"name" bson:"name"`
+		Email string `json:"email" bson:"email"`
 	}
 )
