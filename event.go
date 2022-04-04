@@ -65,7 +65,7 @@ type Event struct {
 	ExternalASP           ExternalASP      `json:"external_asp" bson:"external_asp"`
 	Application           EventApplication `json:"application" bson:"application"`
 	EventTools            EventTools       `json:"event_tools" bson:"event_tools"`
-	CreatorID             string           `json:"creator_id" bson:"creator_id"`
+	Creator               InternalASP      `json:"creator" bson:"creator"`
 	EventState            EventState       `json:"event_state" bson:"event_state"`
 	Modified              vcago.Modified   `json:"modified" bson:"modified"`
 }

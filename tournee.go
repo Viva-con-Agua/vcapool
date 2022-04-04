@@ -13,6 +13,7 @@ type Tour struct {
 	ArtistIDs []string       `json:"artist_ids" bson:"artist_ids"`
 	Artists   ArtistList     `json:"artists" bson:"artists"`
 	Events    EventList      `json:"events" bson:"events"`
+	Creator   InternalASP    `json:"creator" bson:"creator"`
 	Modified  vcago.Modified `json:"modified" bson:"modified"`
 }
 
@@ -21,6 +22,7 @@ type TourList []Tour
 type TourCreate struct {
 	Name      string          `json:"name" bson:"name"`
 	ArtistIDs []string        `json:"artist_ids" bson:"artist_ids"`
+	Creator   InternalASP     `json:"creator" bson:"creator"`
 	Events    EventCreateList `json:"events" bson:"events"`
 }
 
@@ -42,15 +44,23 @@ type TourDatabase struct {
 	ID        string         `json:"id" bson:"_id"`
 	Name      string         `json:"name" bson:"name"`
 	ArtistIDs []string       `json:"artist_ids" bson:"artist_ids"`
+	Creator   InternalASP    `json:"creator" bson:"creator"`
 	Modified  vcago.Modified `json:"modified" bson:"modified"`
 }
 
-func (i *TourCreate) Database() *TourDatabase {
+func (i *TourCreate) Database(user AccessToken) *TourDatabase {
 	return &TourDatabase{
 		ID:        uuid.NewString(),
 		Name:      i.Name,
 		ArtistIDs: i.ArtistIDs,
-		Modified:  vcago.NewModified(),
+		Creator: InternalASP{
+			UserID:      user.ID,
+			FullName:    user.FullName,
+			DisplayName: user.DisplayName,
+			Email:       user.Email,
+			Phone:       user.Profile.Phone,
+		},
+		Modified: vcago.NewModified(),
 	}
 }
 
