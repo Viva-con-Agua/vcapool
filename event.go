@@ -15,7 +15,7 @@ type EventApplication struct {
 }
 
 //InternalASP represents the model for an asp with pool account. Used for event_asp and internal_asp.
-type InternalASP struct {
+type UserInternal struct {
 	UserID      string `json:"user_id" bson:"user_id"`
 	FullName    string `json:"full_name" bson:"full_name"`
 	DisplayName string `json:"display_name" bson:"display_name"`
@@ -30,7 +30,7 @@ type EventTools struct {
 }
 
 //ExternalASP represents an external asp without user_id.
-type ExternalASP struct {
+type UserExternal struct {
 	FullName    string `json:"full_name" bson:"full_name"`
 	DisplayName string `json:"display_name" bson:"display_name"`
 	Email       string `json:"email" bson:"email"`
@@ -60,12 +60,12 @@ type Event struct {
 	StartAt               int64            `json:"start_at" bson:"start_at"`
 	EndAt                 int64            `json:"end_at" bson:"end_at"`
 	Crew                  CrewSimple       `json:"crew" bson:"crew"`
-	EventASP              InternalASP      `json:"event_asp" bson:"event_asp"`
-	InteralASP            InternalASP      `json:"internal_asp" bson:"internal_asp"`
-	ExternalASP           ExternalASP      `json:"external_asp" bson:"external_asp"`
+	EventASP              UserInternal     `json:"event_asp" bson:"event_asp"`
+	InteralASP            UserInternal     `json:"internal_asp" bson:"internal_asp"`
+	ExternalASP           UserExternal     `json:"external_asp" bson:"external_asp"`
 	Application           EventApplication `json:"application" bson:"application"`
 	EventTools            EventTools       `json:"event_tools" bson:"event_tools"`
-	Creator               InternalASP      `json:"creator" bson:"creator"`
+	Creator               UserInternal     `json:"creator" bson:"creator"`
 	EventState            EventState       `json:"event_state" bson:"event_state"`
 	Modified              vcago.Modified   `json:"modified" bson:"modified"`
 }
@@ -82,33 +82,39 @@ type EventCreate struct {
 	StartAt               int64            `json:"start_at" bson:"start_at"`
 	EndAt                 int64            `json:"end_at" bson:"end_at"`
 	Crew                  CrewSimple       `json:"crew" bson:"crew"`
-	EventASP              InternalASP      `json:"event_asp" bson:"event_asp"`
-	InternalASP           InternalASP      `json:"internal_asp" bson:"internal_asp"`
-	ExternalASP           ExternalASP      `json:"external_asp" bson:"external_asp"`
+	EventASP              UserInternal     `json:"event_asp" bson:"event_asp"`
+	InternalASP           UserInternal     `json:"internal_asp" bson:"internal_asp"`
+	ExternalASP           UserExternal     `json:"external_asp" bson:"external_asp"`
 	Application           EventApplication `json:"application" bson:"application"`
 	EventTools            EventTools       `json:"event_tools" bson:"event_tools"`
-	CreatorID             string           `json:"creator_id" bson:"creator_id"`
 }
 
 type EventCreateList []EventCreate
 
-func (i *EventCreateList) Database(tourID string) (r *EventDatabaseList) {
+func (i *EventCreateList) Database(tourID string, token *AccessToken) (r *EventDatabaseList) {
 	r = new(EventDatabaseList)
 	for n, _ := range *i {
-		temp := (*i)[n].Database()
+		temp := (*i)[n].Database(token)
 		temp.TourID = tourID
 		*r = append(*r, *temp)
 	}
 	return
 }
 
-func (i *EventCreate) Database() (r *EventDatabase) {
+func (i *EventCreate) Database(token *AccessToken) (r *EventDatabase) {
 	bytes, _ := json.Marshal(&i)
 	r = new(EventDatabase)
 	_ = json.Unmarshal(bytes, &r)
 	r.ID = uuid.NewString()
 	r.EventState = EventState{
 		State: "created",
+	}
+	r.Creator = UserInternal{
+		UserID:      token.ID,
+		FullName:    token.FullName,
+		DisplayName: token.DisplayName,
+		Email:       token.Email,
+		Phone:       token.Profile.Phone,
 	}
 	r.Modified = vcago.NewModified()
 	return
@@ -141,12 +147,12 @@ type EventDatabase struct {
 	StartAt               int64            `json:"start_at" bson:"start_at"`
 	EndAt                 int64            `json:"end_at" bson:"end_at"`
 	Crew                  CrewSimple       `json:"crew" bson:"crew"`
-	EventASP              InternalASP      `json:"event_asp" bson:"event_asp"`
-	InternalASP           InternalASP      `json:"internal_asp" bson:"internal_asp"`
-	ExternalASP           ExternalASP      `json:"external_asp" bson:"external_asp"`
+	EventASP              UserInternal     `json:"event_asp" bson:"event_asp"`
+	InternalASP           UserInternal     `json:"internal_asp" bson:"internal_asp"`
+	ExternalASP           UserExternal     `json:"external_asp" bson:"external_asp"`
 	Application           EventApplication `json:"application" bson:"application"`
 	EventTools            EventTools       `json:"event_tools" bson:"event_tools"`
-	CreatorID             string           `json:"creator_id" bson:"creator_id"`
+	Creator               UserInternal     `json:"creator" bson:"creator"`
 	EventState            EventState       `json:"event_state" bson:"event_state"`
 	Modified              vcago.Modified   `json:"modified" bson:"modified"`
 }
@@ -165,6 +171,7 @@ type EventList []Event
 type EventQuery struct {
 	ID          string `query:"id" qs:"id"`
 	Name        string `query:"name" qs:"name"`
+	CrewID      string `query:"crew_id" qs:"crew_id"`
 	UpdatedTo   string `query:"updated_to" qs:"updated_to"`
 	UpdatedFrom string `query:"updated_from" qs:"updated_from"`
 	CreatedTo   string `query:"created_to" qs:"created_to"`

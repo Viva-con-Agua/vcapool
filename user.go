@@ -1,10 +1,41 @@
 package vcapool
 
 import (
+	"encoding/json"
 	"errors"
 
 	"github.com/Viva-con-Agua/vcago"
 )
+
+//UserDatabase represents the database model of the users collection.
+type UserDatabase struct {
+	ID            string         `json:"id,omitempty" bson:"_id"`
+	Email         string         `json:"email" bson:"email" validate:"required,email"`
+	FirstName     string         `bson:"first_name" json:"first_name" validate:"required"`
+	LastName      string         `bson:"last_name" json:"last_name" validate:"required"`
+	FullName      string         `bson:"full_name" json:"full_name"`
+	DisplayName   string         `bson:"display_name" json:"display_name"`
+	Roles         vcago.RoleList `json:"system_roles" bson:"system_roles"`
+	Country       string         `bson:"country" json:"country"`
+	PrivacyPolicy bool           `bson:"privacy_policy" json:"privacy_policy"`
+	Confirmd      bool           `bson:"confirmed" json:"confirmed"`
+	LastUpdate    string         `bson:"last_update" json:"last_update"`
+	Modified      vcago.Modified `json:"modified" bson:"modified"`
+}
+
+func NewUserDatabase(user vcago.User) (r *UserDatabase) {
+	r = new(UserDatabase)
+	bytes, _ := json.Marshal(&user)
+	_ = json.Unmarshal(bytes, &r)
+	return
+}
+
+func (i *UserDatabase) User() (r *User) {
+	r = new(User)
+	bytes, _ := json.Marshal(&i)
+	_ = json.Unmarshal(bytes, &r)
+	return
+}
 
 type User struct {
 	ID            string         `json:"id,omitempty" bson:"_id"`

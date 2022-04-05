@@ -29,8 +29,8 @@ type SourceCreate struct {
 	Confirmed   bool           `json:"confirmed" bson:"confirmed"`
 	ConfirmDate int64          `json:"confirm_date" bson:"confirm_date"`
 	External    SourceExternal `json:"external" bson:"external"`
-	Creator     InternalASP    `json:"creator" bson:"creator"`
-	Confirmer   InternalASP    `json:"confirmer" bson:"confirmer"`
+	Creator     UserInternal   `json:"creator" bson:"creator"`
+	Confirmer   UserInternal   `json:"confirmer" bson:"confirmer"`
 }
 
 func (i *SourceCreate) Source(id string) (r *Source) {
@@ -63,8 +63,8 @@ type Source struct {
 	Confirmed   bool           `json:"confirmed" bson:"confirmed"`
 	ConfirmDate int64          `json:"confirm_date" bson:"confirm_date"`
 	External    SourceExternal `json:"external" bson:"external"`
-	Creator     InternalASP    `json:"creator" bson:"creator"`
-	Confirmer   InternalASP    `json:"confirmer" bson:"confirmer"`
+	Creator     UserInternal   `json:"creator" bson:"creator"`
+	Confirmer   UserInternal   `json:"confirmer" bson:"confirmer"`
 	TakingID    string         `json:"taking_id" bson:"taking_id"`
 	Modified    vcago.Modified `json:"modified" bson:"modified"`
 }

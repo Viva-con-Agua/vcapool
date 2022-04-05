@@ -13,7 +13,7 @@ type Tour struct {
 	ArtistIDs []string       `json:"artist_ids" bson:"artist_ids"`
 	Artists   ArtistList     `json:"artists" bson:"artists"`
 	Events    EventList      `json:"events" bson:"events"`
-	Creator   InternalASP    `json:"creator" bson:"creator"`
+	Creator   UserInternal   `json:"creator" bson:"creator"`
 	Modified  vcago.Modified `json:"modified" bson:"modified"`
 }
 
@@ -22,7 +22,7 @@ type TourList []Tour
 type TourCreate struct {
 	Name      string          `json:"name" bson:"name"`
 	ArtistIDs []string        `json:"artist_ids" bson:"artist_ids"`
-	Creator   InternalASP     `json:"creator" bson:"creator"`
+	Creator   UserInternal    `json:"creator" bson:"creator"`
 	Events    EventCreateList `json:"events" bson:"events"`
 }
 
@@ -44,21 +44,21 @@ type TourDatabase struct {
 	ID        string         `json:"id" bson:"_id"`
 	Name      string         `json:"name" bson:"name"`
 	ArtistIDs []string       `json:"artist_ids" bson:"artist_ids"`
-	Creator   InternalASP    `json:"creator" bson:"creator"`
+	Creator   UserInternal   `json:"creator" bson:"creator"`
 	Modified  vcago.Modified `json:"modified" bson:"modified"`
 }
 
-func (i *TourCreate) Database(user AccessToken) *TourDatabase {
+func (i *TourCreate) Database(token *AccessToken) *TourDatabase {
 	return &TourDatabase{
 		ID:        uuid.NewString(),
 		Name:      i.Name,
 		ArtistIDs: i.ArtistIDs,
-		Creator: InternalASP{
-			UserID:      user.ID,
-			FullName:    user.FullName,
-			DisplayName: user.DisplayName,
-			Email:       user.Email,
-			Phone:       user.Profile.Phone,
+		Creator: UserInternal{
+			UserID:      token.ID,
+			FullName:    token.FullName,
+			DisplayName: token.DisplayName,
+			Email:       token.Email,
+			Phone:       token.Profile.Phone,
 		},
 		Modified: vcago.NewModified(),
 	}

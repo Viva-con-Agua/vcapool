@@ -9,11 +9,11 @@ type TakingEventSettings struct {
 }
 
 type Taking struct {
-	ID            string      `json:"id" bson:"_id"`
-	EventSettings string      `json:"event_settings" bson:"event_settings"`
-	Sources       SourceList  `json:"sources" bson:"sources"`
-	Crew          CrewSimple  `json:"crew" bson:"crew"`
-	Author        InternalASP `json:"author" bson:"author"`
+	ID            string       `json:"id" bson:"_id"`
+	EventSettings string       `json:"event_settings" bson:"event_settings"`
+	Sources       SourceList   `json:"sources" bson:"sources"`
+	Crew          CrewSimple   `json:"crew" bson:"crew"`
+	Author        UserInternal `json:"author" bson:"author"`
 }
 
 type TakingList []Taking
