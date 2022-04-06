@@ -7,6 +7,11 @@ import (
 	"github.com/google/uuid"
 )
 
+type UserActiveRequest struct {
+	UserID string `json:"user_id"`
+	State  string `json:"state"`
+}
+
 type UserActive struct {
 	ID       string          `bson:"_id" json:"id"`
 	Status   string          `bson:"status" json:"status"`
@@ -17,10 +22,17 @@ type UserActive struct {
 	Modified vcago.Modified  `bson:"modified" json:"modified"`
 }
 
+type UserActiveUpdate struct {
+	Status  string          `bson:"status" json:"status"`
+	Since   int64           `bson:"since" json:"since"`
+	Expired int64           `bson:"expired" json:"expired"`
+	History HistoryDateList `bson:"history" json:"history"`
+}
+
 func NewUserActive(userID string) *UserActive {
 	return &UserActive{
 		ID:       uuid.NewString(),
-		Status:   "requested",
+		Status:   "not_requested",
 		Since:    0,
 		Expired:  0,
 		UserID:   userID,
@@ -28,21 +40,19 @@ func NewUserActive(userID string) *UserActive {
 	}
 }
 
-func (i *UserActive) Confirmed() {
-	i.Status = "confirmed"
-	i.Since = time.Now().Unix()
-	i.Modified.Update()
+func (i *UserActiveRequest) Confirmed() *UserActiveUpdate {
+	return &UserActiveUpdate{
+		Status: "confirmed",
+		Since:  time.Now().Unix(),
+	}
 }
 
-func (i *UserActive) Rejected() {
-	now := time.Now().Unix()
-	if i.Status == "confirmed" {
-		i.History.Add(i.Since, now)
+func (i *UserActiveRequest) Rejected() *UserActiveUpdate {
+	return &UserActiveUpdate{
+		Status:  "rejected",
+		Expired: time.Now().Unix(),
+		Since:   0,
 	}
-	i.Status = "rejected"
-	i.Expired = now
-	i.Since = 0
-	i.Modified.Update()
 }
 
 func (i *UserActive) Requested() {

@@ -30,6 +30,7 @@ type AccessToken struct {
 	PoolRoles     vcago.RoleListCookie `json:"pool_roles"`
 	ActiveState   string               `json:"active_state"`
 	NVMState      string               `json:"nvm_state"`
+	AvatarID      string               `json:"avatar_id"`
 	Modified      vcago.Modified       `json:"modified"`
 	jwt.StandardClaims
 }
@@ -55,6 +56,7 @@ func NewAccessToken(user *User) *AccessToken {
 		*user.PoolRoles.Cookie(),
 		user.Active.Status,
 		user.NVM.Status,
+		user.Avatar.ID,
 		user.Modified,
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Minute * 15).Unix(),

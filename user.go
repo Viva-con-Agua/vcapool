@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	"github.com/Viva-con-Agua/vcago"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 //UserDatabase represents the database model of the users collection.
@@ -58,6 +59,19 @@ type User struct {
 	Active    UserActive     `json:"active" bson:"active,omitempty"`
 	NVM       UserNVM        `json:"nvm" bson:"nvm,omitempty"`
 	Modified  vcago.Modified `json:"modified" bson:"modified"`
+}
+
+type UserGet struct {
+	ID     string `param:"id"`
+	UserID string
+}
+
+func (i *UserGet) Filter(token AccessToken) bson.M {
+	filter := bson.M{"_id": i.ID}
+	if i.UserID != "" {
+		filter["user_id"] = i.UserID
+	}
+	return filter
 }
 
 type UserList []User

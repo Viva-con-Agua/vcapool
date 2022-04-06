@@ -20,7 +20,7 @@ type UserNVM struct {
 func NewUserNVM(userID string) *UserNVM {
 	return &UserNVM{
 		ID:       uuid.NewString(),
-		Status:   "confirmed",
+		Status:   "not_requested",
 		Since:    time.Now().Unix(),
 		Expired:  0,
 		UserID:   userID,
