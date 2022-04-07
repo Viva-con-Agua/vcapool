@@ -77,6 +77,7 @@ func (i *UserGet) Filter(token AccessToken) bson.M {
 type UserList []User
 
 type UserQuery struct {
+	ID            []string `query:"id" qs:"id"`
 	FirstName     string   `query:"first_name" qs:"first_name"`
 	LastName      string   `query:"last_name" qs:"last_name"`
 	FullName      string   `query:"full_name" qs:"full_name"`
