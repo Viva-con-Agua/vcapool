@@ -77,28 +77,6 @@ func (i *AdminRequest) GetUser(query *UserQuery) (r *UserList, err error) {
 	return
 }
 
-func (i *AdminRequest) GetUserInternal(query *UserQuery) (r *UserInternalList, err error) {
-	uRL := "/admin/users"
-	if query != nil {
-		encoder := qs.NewEncoder()
-		var values url.Values
-		if values, err = encoder.Values(query); err != nil {
-			return
-		}
-		uRL = uRL + "?" + values.Encode()
-	}
-	response := new(vcago.Response)
-	if response, err = i.Get(uRL); err != nil {
-		return
-	}
-	if response.Payload != nil {
-		bytes, _ := json.Marshal(&response.Payload)
-		r = new(UserInternalList)
-		_ = json.Unmarshal(bytes, &r)
-	}
-	return
-}
-
 func (i *AdminRequest) GetCrew(query *CrewQuery) (r *CrewList, err error) {
 	uRL := "/admin/crews"
 	if query != nil {
