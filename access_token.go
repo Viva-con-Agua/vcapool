@@ -69,6 +69,37 @@ func (i *AccessToken) SignedString(secret string) (string, error) {
 	return temp.SignedString([]byte(secret))
 }
 
+func (i *AccessToken) UserInternal() *UserInternal {
+	return &UserInternal{
+		ID:          i.ID,
+		Email:       i.Email,
+		FirstName:   i.FirstName,
+		LastName:    i.LastName,
+		FullName:    i.FullName,
+		DisplayName: i.DisplayName,
+		Profile:     i.Profile,
+	}
+}
+
+func (i *AccessToken) UserSimple() *UserSimple {
+	return &UserSimple{
+		ID:          i.ID,
+		Email:       i.Email,
+		FirstName:   i.FirstName,
+		LastName:    i.LastName,
+		FullName:    i.FullName,
+		DisplayName: i.DisplayName,
+	}
+}
+
+func (i *AccessToken) CrewSimple() *CrewSimple {
+	return &CrewSimple{
+		ID:    i.CrewID,
+		Name:  i.CrewName,
+		Email: i.CrewEmail,
+	}
+}
+
 //AccessCookieConfig can with echo for middleware.JWTWithConfig(vmod.AccessConfig) to handling access controll
 //The token is reachable with c.Get("token")
 func AccessCookieConfig() echo.MiddlewareFunc {

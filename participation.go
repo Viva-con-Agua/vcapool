@@ -1,25 +1,28 @@
 package vcapool
 
-import "github.com/Viva-con-Agua/vcago"
+import (
+	"github.com/Viva-con-Agua/vcago"
+	"github.com/google/uuid"
+)
 
 type ParticipationCreate struct {
 	EventID string `json:"event_id" bson:"event_id"`
 }
 
 type ParticipationUpdate struct {
-	ID        string       `json:"id" bson:"_id"`
-	Status    string       `json:"status" bson:"status"`
-	Confirmer UserInternal `json:"confirmer" bson:"confirmer"`
+	ID     string `json:"id" bson:"_id"`
+	Status string `json:"status" bson:"status"`
+	//Confirmer UserInternal `json:"confirmer" bson:"confirmer"`
 }
 
 type Participation struct {
-	ID        string         `json:"id" bson:"_id"`
-	User      UserInternal   `json:"user" bson:"user"`
-	EventID   string         `json:"event_id" bson:"event_id"`
-	Status    string         `json:"status" bson:"status"`
-	Crew      CrewSimple     `json:"crew" bson:"crew"`
-	Confirmer UserInternal   `json:"confirmer" bson:"confirmer"`
-	Modified  vcago.Modified `json:"modified" bson:"modified"`
+	ID      string       `json:"id" bson:"_id"`
+	User    UserInternal `json:"user" bson:"user"`
+	EventID string       `json:"event_id" bson:"event_id"`
+	Status  string       `json:"status" bson:"status"`
+	Crew    CrewSimple   `json:"crew" bson:"crew"`
+	//Confirmer UserInternal   `json:"confirmer" bson:"confirmer"`
+	Modified vcago.Modified `json:"modified" bson:"modified"`
 }
 
 type ParticipationList []Participation
@@ -44,4 +47,15 @@ func (i *ParticipationQuery) Match() (r *vcago.MongoMatch) {
 	r.StringList("crew.name", i.CrewName)
 	r.StringList("crew.id", i.CrewId)
 	return
+}
+
+func NewParticipation(token *AccessToken, eventID string) *Participation {
+	return &Participation{
+		ID:       uuid.NewString(),
+		User:     *token.UserInternal(),
+		EventID:  eventID,
+		Status:   "requested",
+		Crew:     *token.CrewSimple(),
+		Modified: vcago.NewModified(),
+	}
 }

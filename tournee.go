@@ -53,14 +53,8 @@ func (i *TourCreate) Database(token *AccessToken) *TourDatabase {
 		ID:        uuid.NewString(),
 		Name:      i.Name,
 		ArtistIDs: i.ArtistIDs,
-		Creator: UserInternal{
-			UserID:      token.ID,
-			FullName:    token.FullName,
-			DisplayName: token.DisplayName,
-			Email:       token.Email,
-			Phone:       token.Profile.Phone,
-		},
-		Modified: vcago.NewModified(),
+		Creator:   *token.UserInternal(),
+		Modified:  vcago.NewModified(),
 	}
 }
 

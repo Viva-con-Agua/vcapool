@@ -14,15 +14,6 @@ type EventApplication struct {
 	SupporterCount int   `json:"supporter_count" bson:"supporter_count"`
 }
 
-//InternalASP represents the model for an asp with pool account. Used for event_asp and internal_asp.
-type UserInternal struct {
-	UserID      string `json:"user_id" bson:"user_id"`
-	FullName    string `json:"full_name" bson:"full_name"`
-	DisplayName string `json:"display_name" bson:"display_name"`
-	Email       string `json:"email" bson:"email"`
-	Phone       string `json:"phone" bson:"phone"`
-}
-
 //EventTools contains tools
 type EventTools struct {
 	Tools   []string `json:"tools" bson:"tools"`
@@ -109,13 +100,7 @@ func (i *EventCreate) Database(token *AccessToken) (r *EventDatabase) {
 	r.EventState = EventState{
 		State: "created",
 	}
-	r.Creator = UserInternal{
-		UserID:      token.ID,
-		FullName:    token.FullName,
-		DisplayName: token.DisplayName,
-		Email:       token.Email,
-		Phone:       token.Profile.Phone,
-	}
+	r.Creator = *token.UserInternal()
 	r.Modified = vcago.NewModified()
 	return
 }
