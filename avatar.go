@@ -6,26 +6,24 @@ import (
 )
 
 type AvatarCreate struct {
-	URL    string `bson:"url" json:"url"`
-	Type   string `bson:"type" json:"type"`
-	UserID string `bson:"user_id" json:"user_id"`
+	URL  string `bson:"url" json:"url"`
+	Type string `bson:"type" json:"type"`
 }
 
-func (i *AvatarCreate) Avatar() *Avatar {
+func (i *AvatarCreate) Avatar(userID string) *Avatar {
 	return &Avatar{
 		ID:       uuid.NewString(),
 		URL:      i.URL,
 		Type:     i.Type,
-		UserID:   i.UserID,
+		UserID:   userID,
 		Modified: vcago.NewModified(),
 	}
 }
 
 type AvatarUpdate struct {
-	ID     string `bson:"_id" json:"id"`
-	URL    string `bson:"url" json:"url"`
-	Type   string `bson:"type" json:"type"`
-	UserID string `bson:"user_id" json:"user_id"`
+	ID   string `bson:"_id" json:"id"`
+	URL  string `bson:"url" json:"url"`
+	Type string `bson:"type" json:"type"`
 }
 type AvatarParam struct {
 	ID string `param:"_id"`
