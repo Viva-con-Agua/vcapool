@@ -27,7 +27,7 @@ type AvatarUpdate struct {
 	Type   string `bson:"type" json:"type"`
 	UserID string `bson:"user_id" json:"user_id"`
 }
-type AvatarDelete struct {
+type AvatarParam struct {
 	ID string `param:"_id"`
 }
 
