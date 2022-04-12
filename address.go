@@ -14,7 +14,7 @@ type AddressCreate struct {
 	Zip         string `json:"zip" bson:"zip"`
 	City        string `json:"city" bson:"city"`
 	Country     string `json:"country" bson:"country"`
-	CountryCode string `json:"country_code" bson:"country_code`
+	CountryCode string `json:"country_code" bson:"country_code"`
 	Additionals string `json:"additionals" bson:"additionals"`
 }
 
@@ -35,7 +35,7 @@ type AddressUpdate struct {
 	Zip         string `json:"zip" bson:"zip"`
 	City        string `json:"city" bson:"city"`
 	Country     string `json:"country" bson:"country"`
-	CountryCode string `json:"country_code" bson:"country_code`
+	CountryCode string `json:"country_code" bson:"country_code"`
 	Additionals string `json:"additionals" bson:"additionals"`
 	UserID      string `json:"user_id" bson:"user_id"`
 }
@@ -47,7 +47,7 @@ type Address struct {
 	Zip         string         `json:"zip" bson:"zip"`
 	City        string         `json:"city" bson:"city"`
 	Country     string         `json:"country" bson:"country"`
-	CountryCode string         `json:"country_code" bson:"country_code`
+	CountryCode string         `json:"country_code" bson:"country_code"`
 	Additionals string         `json:"additionals" bson:"additionals"`
 	UserID      string         `json:"user_id" bson:"user_id"`
 	Modified    vcago.Modified `json:"modified" bson:"modified"`
