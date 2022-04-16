@@ -53,6 +53,8 @@ type Address struct {
 	Modified    vcago.Modified `json:"modified" bson:"modified"`
 }
 
+type AddressList []Address
+
 type AddressParam struct {
 	ID     string `param:"id"`
 	UserID string
@@ -67,13 +69,23 @@ func (i *AddressParam) Filter() bson.M {
 }
 
 type AddressQuery struct {
-	ID     string `query:"id"`
-	CrewID string `query:"crew_id"`
-	UserID string `query:"user_id"`
+	ID          []string `query:"id" qs:"id"`
+	CrewID      []string `query:"crew_id" qs:"crew_id"`
+	UserID      []string `query:"user_id" qs:"user_id"`
+	UpdatedTo   string   `query:"updated_to" qs:"updated_to"`
+	UpdatedFrom string   `query:"updated_from" qs:"updated_from"`
+	CreatedTo   string   `query:"created_to" qs:"created_to"`
+	CreatedFrom string   `query:"created_from" qs:"created_from"`
 }
 
-func (i *AddressQuery) Filter() bson.M {
-	f := vcago.NewMongoFilter()
-	f.Equal("_id", i.ID)
-	return f.Filter
+func (i *AddressQuery) Match() (r *vcago.MongoMatch) {
+	r = vcago.NewMongoMatch()
+	r.StringList("_id", i.ID)
+	r.StringList("crew_id", i.CrewID)
+	r.StringList("user_id", i.UserID)
+	r.GteInt64("modified.updated", i.UpdatedFrom)
+	r.GteInt64("modified.created", i.CreatedFrom)
+	r.LteInt64("modified.updated", i.UpdatedTo)
+	r.LteInt64("modified.created", i.CreatedTo)
+	return
 }
