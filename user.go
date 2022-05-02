@@ -21,6 +21,7 @@ type (
 		Country       string         `bson:"country" json:"country"`
 		PrivacyPolicy bool           `bson:"privacy_policy" json:"privacy_policy"`
 		Confirmd      bool           `bson:"confirmed" json:"confirmed"`
+		DropsID       string         `bson:"drops_id" json:"drops_id"`
 		LastUpdate    string         `bson:"last_update" json:"last_update"`
 		Modified      vcago.Modified `json:"modified" bson:"modified"`
 	}
@@ -37,6 +38,7 @@ type (
 		Confirmd      bool           `bson:"confirmed" json:"confirmed"`
 		LastUpdate    string         `bson:"last_update" json:"last_update"`
 		//extends the vcago.User
+		DropsID   string         `bson:"drops_id" json:"drops_id"`
 		Profile   Profile        `json:"profile" bson:"profile,truncate"`
 		Crew      UserCrew       `json:"crew" bson:"crew,omitempty"`
 		Avatar    Avatar         `bson:"avatar,omitempty" json:"avatar"`

@@ -18,12 +18,12 @@ type AddressCreate struct {
 	Additionals string `json:"additionals" bson:"additionals"`
 }
 
-func (i *AddressCreate) Address(token *AccessToken) (r *Address) {
+func (i *AddressCreate) Address(userID string) (r *Address) {
 	bytes, _ := json.Marshal(&i)
 	r = new(Address)
 	_ = json.Unmarshal(bytes, &r)
 	r.ID = uuid.NewString()
-	r.UserID = token.ID
+	r.UserID = userID
 	r.Modified = vcago.NewModified()
 	return
 }
