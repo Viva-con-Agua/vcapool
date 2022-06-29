@@ -1,17 +1,6 @@
 package vcapool
 
-import (
-	"bytes"
-	"encoding/json"
-	"errors"
-	"io/ioutil"
-	"net/http"
-	"net/url"
-
-	"github.com/Viva-con-Agua/vcago"
-	"github.com/sonh/qs"
-)
-
+/*
 type AdminRequest struct {
 	URL string
 }
@@ -136,4 +125,4 @@ func (i *AdminRequest) GetCrew(query *CrewQuery) (r *CrewList, err error) {
 		_ = json.Unmarshal(bytes, &r)
 	}
 	return
-}
+}*/

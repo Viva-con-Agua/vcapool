@@ -6,7 +6,7 @@ import (
 	"github.com/Viva-con-Agua/vcago"
 )
 
-var jwtSecret = vcago.Config.GetEnvString("JWT_SECRET", "w", "secret")
+var JWTSecret = vcago.Config.GetEnvString("JWT_SECRET", "w", "secret")
 
 var authCookie = vcago.NewCookieConfig()
 
@@ -18,14 +18,14 @@ type AuthToken struct {
 }
 
 //NewAuthToken creates an new access and refresh token for the given user.
-func NewAuthToken(user *User) (r *AuthToken, err error) {
+/*func NewAuthToken(user *User) (r *AuthToken, err error) {
 	r = new(AuthToken)
-	if r.AccessToken, err = NewAccessToken(user).SignedString(jwtSecret); err != nil {
+	if r.AccessToken, err = NewAccessToken(user).SignedString(JWTSecret); err != nil {
 		return
 	}
-	r.RefreshToken, err = NewRefreshToken(user.ID).SignedString(jwtSecret)
+	r.RefreshToken, err = NewRefreshToken(user.ID).SignedString(JWTSecret)
 	return
-}
+}*/
 
 //AccessCookie return an cookie conains the access_token.
 func (i *AuthToken) AccessCookie() (r *http.Cookie) {

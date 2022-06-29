@@ -2,7 +2,6 @@ package vcapool
 
 import (
 	"errors"
-	"time"
 
 	"github.com/Viva-con-Agua/vcago"
 	"github.com/golang-jwt/jwt"
@@ -22,7 +21,9 @@ type AccessToken struct {
 	PrivacyPolicy bool                 `bson:"privacy_policy" json:"privacy_policy"`
 	Confirmd      bool                 `bson:"confirmed" json:"confirmed"`
 	LastUpdate    string               `bson:"last_update" json:"last_update"`
-	Profile       Profile              `json:"profile" bson:"profile,truncate"`
+	Phone         string               `json:"phone"`
+	Gender        string               `json:"gender"`
+	Birthdate     int64                `json:"birthdate"`
 	CrewName      string               `json:"crew_name"`
 	CrewID        string               `json:"crew_id"`
 	CrewEmail     string               `json:"crew_email"`
@@ -35,6 +36,7 @@ type AccessToken struct {
 	jwt.StandardClaims
 }
 
+/*
 func NewAccessToken(user *User) *AccessToken {
 	return &AccessToken{
 		user.ID,
@@ -62,7 +64,7 @@ func NewAccessToken(user *User) *AccessToken {
 			ExpiresAt: time.Now().Add(time.Minute * 15).Unix(),
 		},
 	}
-}
+}*/
 
 func (i *AccessToken) SignedString(secret string) (string, error) {
 	temp := jwt.NewWithClaims(jwt.SigningMethodHS256, i)
@@ -77,7 +79,11 @@ func (i *AccessToken) UserInternal() *UserInternal {
 		LastName:    i.LastName,
 		FullName:    i.FullName,
 		DisplayName: i.DisplayName,
-		Profile:     i.Profile,
+		Profile: Profile{
+			Gender:    i.Gender,
+			Phone:     i.Phone,
+			Birthdate: i.Birthdate,
+		},
 	}
 }
 
@@ -108,7 +114,7 @@ func AccessCookieConfig() echo.MiddlewareFunc {
 			Claims:      &AccessToken{},
 			ContextKey:  "token",
 			TokenLookup: "cookie:access_token",
-			SigningKey:  []byte(jwtSecret),
+			SigningKey:  []byte(JWTSecret),
 		})
 }
 
