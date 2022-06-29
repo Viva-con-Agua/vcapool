@@ -37,7 +37,7 @@ func RefreshCookieConfig() echo.MiddlewareFunc {
 			Claims:      &RefreshToken{},
 			ContextKey:  "token",
 			TokenLookup: "cookie:refresh_token",
-			SigningKey:  []byte(jwtSecret),
+			SigningKey:  []byte(JWTSecret),
 		})
 }
 
