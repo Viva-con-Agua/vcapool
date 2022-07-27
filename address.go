@@ -3,7 +3,8 @@ package vcapool
 import (
 	"encoding/json"
 
-	"github.com/Viva-con-Agua/vcago"
+	"github.com/Viva-con-Agua/vcago/vmdb"
+	"github.com/Viva-con-Agua/vcago/vmod"
 	"github.com/google/uuid"
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -24,7 +25,7 @@ func (i *AddressCreate) Address(userID string) (r *Address) {
 	_ = json.Unmarshal(bytes, &r)
 	r.ID = uuid.NewString()
 	r.UserID = userID
-	r.Modified = vcago.NewModified()
+	r.Modified = vmod.NewModified()
 	return
 }
 
@@ -41,16 +42,16 @@ type AddressUpdate struct {
 }
 
 type Address struct {
-	ID          string         `json:"id" bson:"_id"`
-	Street      string         `json:"street" bson:"street"`
-	Number      string         `json:"number" bson:"number"`
-	Zip         string         `json:"zip" bson:"zip"`
-	City        string         `json:"city" bson:"city"`
-	Country     string         `json:"country" bson:"country"`
-	CountryCode string         `json:"country_code" bson:"country_code"`
-	Additionals string         `json:"additionals" bson:"additionals"`
-	UserID      string         `json:"user_id" bson:"user_id"`
-	Modified    vcago.Modified `json:"modified" bson:"modified"`
+	ID          string        `json:"id" bson:"_id"`
+	Street      string        `json:"street" bson:"street"`
+	Number      string        `json:"number" bson:"number"`
+	Zip         string        `json:"zip" bson:"zip"`
+	City        string        `json:"city" bson:"city"`
+	Country     string        `json:"country" bson:"country"`
+	CountryCode string        `json:"country_code" bson:"country_code"`
+	Additionals string        `json:"additionals" bson:"additionals"`
+	UserID      string        `json:"user_id" bson:"user_id"`
+	Modified    vmod.Modified `json:"modified" bson:"modified"`
 }
 
 type AddressList []Address
@@ -78,14 +79,14 @@ type AddressQuery struct {
 	CreatedFrom string   `query:"created_from" qs:"created_from"`
 }
 
-func (i *AddressQuery) Match() (r *vcago.MongoMatch) {
-	r = vcago.NewMongoMatch()
-	r.StringList("_id", i.ID)
-	r.StringList("crew_id", i.CrewID)
-	r.StringList("user_id", i.UserID)
+func (i *AddressQuery) Match() bson.D {
+	r := vmdb.NewFilter()
+	r.EqualStringList("_id", i.ID)
+	r.EqualStringList("crew_id", i.CrewID)
+	r.EqualStringList("user_id", i.UserID)
 	r.GteInt64("modified.updated", i.UpdatedFrom)
 	r.GteInt64("modified.created", i.CreatedFrom)
 	r.LteInt64("modified.updated", i.UpdatedTo)
 	r.LteInt64("modified.created", i.CreatedTo)
-	return
+	return r.Bson()
 }

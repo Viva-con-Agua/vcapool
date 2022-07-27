@@ -1,17 +1,17 @@
 package vcapool
 
 import (
-	"github.com/Viva-con-Agua/vcago"
+	"github.com/Viva-con-Agua/vcago/vmod"
 	"github.com/google/uuid"
 )
 
 type Application struct {
-	ID       string         `json:"id" bson:"_id"`
-	User     UserSimple     `json:"user" bson:"user"`
-	EventID  string         `json:"event_id" bson:"event_id"`
-	Status   string         `json:"status" bson:"status"`
-	Crew     CrewSimple     `json:"crew" bson:"crew"`
-	Modified vcago.Modified `json:"modified" bson:"modified"`
+	ID       string        `json:"id" bson:"_id"`
+	User     UserSimple    `json:"user" bson:"user"`
+	EventID  string        `json:"event_id" bson:"event_id"`
+	Status   string        `json:"status" bson:"status"`
+	Crew     CrewSimple    `json:"crew" bson:"crew"`
+	Modified vmod.Modified `json:"modified" bson:"modified"`
 }
 
 type ApplicationCreate struct {

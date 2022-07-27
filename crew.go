@@ -1,14 +1,14 @@
 package vcapool
 
-import "github.com/Viva-con-Agua/vcago"
+import "github.com/Viva-con-Agua/vcago/vmod"
 
 type (
 	Crew struct {
-		ID       string         `json:"id,omitempty" bson:"_id"`
-		Name     string         `json:"name" bson:"name"`
-		Email    string         `json:"email" bson:"email"`
-		Cities   []City         `json:"cities" bson:"cities"`
-		Modified vcago.Modified `json:"modified" bson:"modified"`
+		ID       string        `json:"id,omitempty" bson:"_id"`
+		Name     string        `json:"name" bson:"name"`
+		Email    string        `json:"email" bson:"email"`
+		Cities   []City        `json:"cities" bson:"cities"`
+		Modified vmod.Modified `json:"modified" bson:"modified"`
 	}
 	City struct {
 		City        string   `json:"city" bson:"city"`
