@@ -28,6 +28,7 @@ type AccessToken struct {
 	ActiveState   string              `json:"active_state"`
 	NVMState      string              `json:"nvm_state"`
 	AvatarID      string              `json:"avatar_id"`
+	MailboxID     string              `json:"mailbox_id"`
 	Modified      vmod.Modified       `json:"modified"`
 	jwt.StandardClaims
 }
