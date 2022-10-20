@@ -1,5 +1,6 @@
 package vcapool
 
+/*
 import (
 	"net/http"
 
@@ -15,7 +16,7 @@ type AuthToken struct {
 	RefreshToken string `json:"refresh_token" bson:"refresh_token"`
 	ExpiresAt    int64  `json:"expires_at" bson:"expires_at"`
 }
-
+*/
 //NewAuthToken creates an new access and refresh token for the given user.
 /*func NewAuthToken(user *User) (r *AuthToken, err error) {
 	r = new(AuthToken)
@@ -25,7 +26,7 @@ type AuthToken struct {
 	r.RefreshToken, err = NewRefreshToken(user.ID).SignedString(JWTSecret)
 	return
 }*/
-
+/*
 //AccessCookie return an cookie conains the access_token.
 func (i *AuthToken) AccessCookie() (r *http.Cookie) {
 	return authCookie.Cookie("access_token", i.AccessToken)
@@ -44,4 +45,4 @@ func (i *AuthToken) RefreshCookie() *http.Cookie {
 //ResetRefreshCookie returns an cookie for reset the refresh_token.
 func ResetRefreshCookie() *http.Cookie {
 	return authCookie.Cookie("refresh_token", "")
-}
+}*/
